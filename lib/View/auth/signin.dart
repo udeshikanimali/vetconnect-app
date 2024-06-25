@@ -80,10 +80,9 @@ class _SignInState extends State<SignIn> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           filled: true,
-                         
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.green,
                               width: 3.0,
                             ),
@@ -127,13 +126,12 @@ class _SignInState extends State<SignIn> {
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
-                            borderSide: BorderSide(
+                            borderSide: const BorderSide(
                               color: Colors.green,
                               width: 3.0,
                             ),
                           ),
                           filled: true,
-                          
                           focusedBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
                             borderSide: const BorderSide(
