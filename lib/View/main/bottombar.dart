@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:vetconnect_app/View/main/bottombar_pages/add_new/add_new.dart';
 import 'package:vetconnect_app/View/main/bottombar_pages/helth_info/info.dart';
 import 'package:vetconnect_app/View/main/bottombar_pages/location/map.dart';
 import 'package:vetconnect_app/View/main/bottombar_pages/profile/profile.dart';
@@ -72,15 +73,21 @@ class _BottomBarState extends State<BottomBar> {
               index: 1,
               screen: const MapPage(),
             ),
-            const FloatingActionButton(
+            FloatingActionButton(
               elevation: 0,
-              onPressed: null,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddNew()),
+                );
+              },
               backgroundColor: Colors.white,
               child: Icon(
                 Icons.add,
                 color: Colors.green,
               ),
             ),
+
             buildNavItem(
               icon: Icons.info,
               label: "info",

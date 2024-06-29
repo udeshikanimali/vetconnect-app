@@ -160,7 +160,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   ? Icons.visibility
                                   : Icons.visibility_off),
                               iconSize: screenHeight * 0.03,
-                              color: HexColor("#ffffff"),
+                              color: HexColor("#898989"),
                               onPressed: () {
                                 setState(() {
                                   isPasswordVisible = !isPasswordVisible;
@@ -238,7 +238,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   ? Icons.visibility
                                   : Icons.visibility_off),
                               iconSize: screenHeight * 0.03,
-                              color: HexColor("#ffffff"),
+                              color: HexColor("#898989"),
                               onPressed: () {
                                 setState(() {
                                   isRetypePasswordVisible =

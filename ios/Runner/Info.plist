@@ -59,5 +59,9 @@
 	<string>Your location is needed to show nearby places.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Your location is needed to show nearby places.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Enable camera access to take photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Enable photo library access to select photos</string>
 </dict>
 </plist>
