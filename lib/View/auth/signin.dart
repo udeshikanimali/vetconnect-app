@@ -4,6 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:vetconnect_app/View/auth/signup.dart';
 
 import '../../font_styles.dart';
+import '../main/bottombar.dart';
 import 'forgot_password.dart';
 
 class SignIn extends StatefulWidget {
@@ -41,22 +42,36 @@ class _SignInState extends State<SignIn> {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: screenHeight * 0.2,
-            ),
-            Text(
-              "Sign In",
-              style: FontStyles.titleTextStyle(context),
-            ),
-            SizedBox(
-              height: screenHeight * 0.03,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: screenWidth * 0.08, right: screenWidth * 0.08),
-              child: Form(
+        child: Padding(
+          padding: EdgeInsets.only(
+              left: screenWidth * 0.08, right: screenWidth * 0.08),
+          child: Column(
+            children: [
+              SizedBox(
+                height: screenHeight * 0.15,
+              ),
+              Text(
+                "Sign In",
+                style: FontStyles.titleTextStyle(context),
+              ),
+              SizedBox(
+                height: screenHeight * 0.1,
+              ),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: screenWidth * 0.02),
+                    child: Text(
+                      "Email",
+                      style: TextStyle(
+                          fontSize: screenWidth * 0.015 + 10,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  )),
+              SizedBox(
+                height: screenHeight * 0.015,
+              ),
+              Form(
                 key: signInFormKey,
                 child: Column(
                   children: [
@@ -81,11 +96,8 @@ class _SignInState extends State<SignIn> {
                       decoration: InputDecoration(
                           filled: true,
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(
-                              color: Colors.green,
-                              width: 3.0,
-                            ),
+                            borderRadius: BorderRadius.circular(25),
+                            borderSide: BorderSide.none,
                           ),
                           hintText: "Enter your email",
                           hintStyle: FontStyles.hintTextStyle(context),
@@ -97,10 +109,24 @@ class _SignInState extends State<SignIn> {
                               width: 3.0,
                             ),
                           ),
-                          contentPadding: EdgeInsets.all(screenWidth * 0.038)),
+                          contentPadding: EdgeInsets.all(screenWidth * 0.04)),
                     ),
                     SizedBox(
-                      height: screenHeight * 0.02,
+                      height: screenHeight * 0.025,
+                    ),
+                    Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: screenWidth * 0.02),
+                          child: Text(
+                            "Password",
+                            style: TextStyle(
+                                fontSize: screenWidth * 0.015 + 10,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                    SizedBox(
+                      height: screenHeight * 0.015,
                     ),
                     TextFormField(
                       controller: _passwordController,
@@ -125,12 +151,8 @@ class _SignInState extends State<SignIn> {
                       obscureText: !isPasswordVisible,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20),
-                            borderSide: const BorderSide(
-                              color: Colors.green,
-                              width: 3.0,
-                            ),
-                          ),
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: BorderSide.none),
                           filled: true,
                           focusedBorder: UnderlineInputBorder(
                             borderRadius: BorderRadius.circular(20),
@@ -147,7 +169,7 @@ class _SignInState extends State<SignIn> {
                                   ? Icons.visibility
                                   : Icons.visibility_off),
                               iconSize: screenHeight * 0.03,
-                              color: HexColor("#989898"),
+                              color: HexColor("#898989"),
                               onPressed: () {
                                 setState(() {
                                   isPasswordVisible = !isPasswordVisible;
@@ -158,16 +180,13 @@ class _SignInState extends State<SignIn> {
                           hintText: "Password",
                           hintStyle: FontStyles.hintTextStyle(context),
                           errorStyle: FontStyles.errorTextStyle(context),
-                          contentPadding: EdgeInsets.all(screenWidth * 0.038)),
+                          contentPadding: EdgeInsets.all(screenWidth * 0.04)),
                     ),
                   ],
                 ),
               ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: EdgeInsets.only(right: screenWidth * 0.08),
+              Align(
+                alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -176,22 +195,22 @@ class _SignInState extends State<SignIn> {
                             builder: (context) => const ForgotPassword()));
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(top: screenHeight * 0.02),
+                    padding: EdgeInsets.only(top: screenHeight * 0.035),
                     child: Text(
-                      "Forgot password",
-                      style: FontStyles.bodyTextStyle(context),
+                      "Forgot password ?",
+                      style: TextStyle(
+                          fontSize: screenWidth * 0.015 + 9,
+                          fontFamily: 'inter',
+                          fontWeight: FontWeight.w400,
+                          color: Colors.green),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: screenHeight * 0.02,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: screenWidth * 0.08, right: screenWidth * 0.08),
-              child: Center(
+              SizedBox(
+                height: screenHeight * 0.03,
+              ),
+              Center(
                 child: SizedBox(
                   width: screenWidth * 0.5,
                   height: screenHeight * 0.06,
@@ -200,35 +219,44 @@ class _SignInState extends State<SignIn> {
                       backgroundColor: Colors.green,
                       elevation: 3,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(25),
                       ),
                     ),
                     onPressed: () async {
-                      if (signInFormKey.currentState!.validate()) {
-                        // doSignIn(_emailOrPhoneController.text, _passwordController.text);
-                      }
+                      // if (signInFormKey.currentState!.validate()) {
+                      //   doSignIn(_emailOrPhoneController.text, _passwordController.text);
+                      // }
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BottomBar(),
+                          ));
                     },
                     child: Text("Sign In",
                         style: FontStyles.buttonTextStyle(context)),
                   ),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const SignUp()));
-              },
-              child: Padding(
-                padding: EdgeInsets.only(top: screenHeight * 0.02),
-                child: Text(
-                  "Do not have an account? Sign Up",
-                  style: FontStyles.bodyTextStyle(context),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const SignUp()));
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: screenHeight * 0.03),
+                  child: Text(
+                    "Do not have an account? Sign Up",
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.015 + 8,
+                      fontFamily: 'inter',
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: screenHeight * 0.035),
-          ],
+              SizedBox(height: screenHeight * 0.035),
+            ],
+          ),
         ),
       ),
     );

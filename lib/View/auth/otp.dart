@@ -1,37 +1,69 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../font_styles.dart';
-import 'otp.dart';
+import 'package:vetconnect_app/View/auth/change_password.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+import '../../font_styles.dart';
+
+class OTP extends StatefulWidget {
+  final String email;
+  const OTP({super.key, required this.email});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<OTP> createState() => _OTPState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _OTPState extends State<OTP> {
   final formGlobalKey = GlobalKey<FormState>();
-  late TextEditingController _emailController;
+  final int maxInputLength = 15;
+  late TextEditingController _otpController;
+  bool otpError = false;
+  bool buttonEnabled = true;
+
+  int _countdownSeconds = 150;
+  late Timer _countdownTimer;
 
   @override
   void initState() {
-    _emailController = TextEditingController();
+    _otpController = TextEditingController();
+    startCountdownTimer();
     super.initState();
+    buttonEnabled = true;
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _otpController.dispose();
+    _countdownTimer.cancel();
     super.dispose();
   }
 
-  // sendEmailForOTP(String email) async {
+  void startCountdownTimer() {
+    _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_countdownSeconds > 0) {
+          _countdownSeconds--;
+        } else {
+          _countdownTimer.cancel();
+        }
+      });
+    });
+  }
+
+  // sendOTP(String otp) async {
 
   //   AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
   //   // PageLoader.showLoader(context);
-  //   bool result = await auth.sendEmailForOTP(context, email);
+  //   bool result = await auth.sendOTP(context, widget.email, otp);
 
+  //   }
+  // }
+
+  // sendEmailForOTP(String email) async {
+  //   AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+
+  //   auth.sendEmailForOTP(context, email);
   // }
   @override
   Widget build(BuildContext context) {
@@ -68,7 +100,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   height: screenHeight * 0.1,
                 ),
                 Text(
-                  "Enter your email for get your OTP",
+                  "Enter OTP code",
                   style: FontStyles.titleTextStyle(context),
                 ),
                 SizedBox(
@@ -79,7 +111,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Padding(
                       padding: EdgeInsets.only(left: screenWidth * 0.02),
                       child: Text(
-                        "Email",
+                        "OTP",
                         style: TextStyle(
                             fontSize: screenWidth * 0.015 + 10,
                             fontWeight: FontWeight.w500),
@@ -91,32 +123,35 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 Form(
                   key: formGlobalKey,
                   child: TextFormField(
-                    controller: _emailController,
+                    controller: _otpController,
                     style: FontStyles.bodyTextStyle(context),
                     cursorColor: Colors.green,
                     validator: (value) {
                       if (value!.isEmpty) {
-                        return "Required email";
-                      } else if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return "Enter a valid email";
-                      } else {
-                        return null;
+                        setState(() {
+                          otpError = true;
+                        });
+                        return "Required otp";
+                      } else if (value.length > maxInputLength) {
+                        setState(() {
+                          otpError = true;
+                        });
+                        return "Otp cannot exceed 15 characters";
                       }
+                      return null;
                     },
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                          RegExp("^[0-9a-zA-Z\@\.]*")),
+                      FilteringTextInputFormatter.allow(RegExp("^[0-9]*")),
+                      LengthLimitingTextInputFormatter(maxInputLength),
                     ],
-                    keyboardType: TextInputType.emailAddress,
+                    keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         filled: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
                           borderSide: BorderSide.none,
                         ),
-                        hintText: "Enter your email",
+                        hintText: "Enter otp code here",
                         hintStyle: FontStyles.hintTextStyle(context),
                         errorStyle: FontStyles.errorTextStyle(context),
                         focusedBorder: UnderlineInputBorder(
@@ -127,6 +162,29 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           ),
                         ),
                         contentPadding: EdgeInsets.all(screenWidth * 0.038)),
+                  ),
+                ),
+                SizedBox(height: screenHeight * 0.03),
+                GestureDetector(
+                  onTap: () {
+                    if (_countdownSeconds == 0) {
+                      // sendEmailForOTP(widget.email);
+                      // Restart the countdown timer
+                      _countdownSeconds = 150;
+                      startCountdownTimer();
+                    }
+                  },
+                  child: Text(
+                    _countdownSeconds > 0
+                        ? '${_countdownSeconds ~/ 60}:${(_countdownSeconds % 60).toString().padLeft(2, '0')}'
+                        : 'Resend code',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.038,
+                      fontFamily: 'inter',
+                      fontWeight: FontWeight.w400,
+                      color:
+                          _countdownSeconds == 0 ? Colors.green : Colors.grey,
+                    ),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.05),
@@ -143,18 +201,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ),
                       ),
                       onPressed: () async {
+                        // if (formGlobalKey.currentState!.validate()) {
+                        //   sendOTP(_otpController.text);
+                        // }
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => OTP(
-                                email: _emailController.text,
+                              builder: (context) => ChangePassword(
+                                email: widget.email,
                               ),
                             ));
-                        // if (formGlobalKey.currentState!.validate()) {
-                        //   sendEmailForOTP(_emailController.text);
-                        // }
                       },
-                      child: Text("Send OTP",
+                      child: Text("Continue",
                           style: FontStyles.buttonTextStyle(context)),
                     ),
                   ),

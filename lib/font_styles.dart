@@ -21,6 +21,7 @@ class FontStyles {
       fontSize: screenWidth * 0.025 + 10,
       fontFamily: 'inter',
       fontWeight: FontWeight.w700,
+      color: Colors.green
       
     );
   }
