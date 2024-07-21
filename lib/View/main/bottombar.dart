@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:vetconnect_app/View/main/bottombar_pages/add_new/add_new.dart';
 import 'package:vetconnect_app/View/main/bottombar_pages/helth_info/info.dart';
+import 'package:vetconnect_app/View/main/bottombar_pages/helth_info/vet_clinics.dart';
 import 'package:vetconnect_app/View/main/bottombar_pages/location/map.dart';
 import 'package:vetconnect_app/View/main/bottombar_pages/profile/profile.dart';
 
@@ -89,10 +90,10 @@ class _BottomBarState extends State<BottomBar> {
             ),
 
             buildNavItem(
-              icon: Icons.info,
-              label: "info",
+              icon: Icons.book,
+              label: "Vet Clinics",
               index: 2,
-              screen: const Info(),
+              screen: const ClinicsList(),
             ),
             buildNavItem(
               icon: Icons.person,

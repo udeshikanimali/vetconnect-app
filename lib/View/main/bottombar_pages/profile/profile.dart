@@ -61,6 +61,16 @@ class _ProfileState extends State<Profile> {
             ),
             SizedBox(height: screenHeight * 0.005),
             buildListTile(
+              icon: Icons.book,
+              text: 'Bookings',
+              onTap: (){},
+            ),
+            SizedBox(height: screenHeight * 0.005),
+            const Divider(
+              thickness: 1,
+            ),
+            SizedBox(height: screenHeight * 0.005),
+            buildListTile(
               icon: Icons.logout,
               text: 'Logout',
               onTap: _logout,
